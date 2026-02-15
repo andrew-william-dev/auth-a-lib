@@ -1,0 +1,12 @@
+{
+  "name": "auth-a-lib",
+  "version": "1.0.0",
+  "description": "Package to Integrate with Auth-A dev portal",
+  "license": "ISC",
+  "author": "Andrew William Staines",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
