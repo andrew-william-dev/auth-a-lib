@@ -19,8 +19,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "build-test": "npm run build"
+    "dev": "rollup -c -w"
   },
   "dependencies": {
     "axios": "^1.13.5"
