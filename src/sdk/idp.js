@@ -66,7 +66,7 @@ export class ClientApp {
         if (!code) {
             return null;
         }
-        return await fetch("http://localhost:5000/api/oauth/token",{
+        return await fetch("https://auth-a-be.onrender.com/api/oauth/token",{
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
