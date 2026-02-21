@@ -4,9 +4,41 @@
   "description": "Package to Integrate with Auth-A dev portal",
   "license": "ISC",
   "author": "Andrew William Staines",
-  "type": "commonjs",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/auth-a-lib.umd.js",
+  "module": "dist/auth-a-lib.esm.js",
+  "browser": "dist/auth-a-lib.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/auth-a-lib.esm.js",
+      "require": "./dist/auth-a-lib.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "dependencies": {
+    "axios": "^1.13.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "nodemon": "^3.1.11",
+    "rollup": "^4.57.1"
+  },
+  "keywords": [
+    "auth",
+    "authentication",
+    "oauth",
+    "pkce",
+    "auth-a"
+  ]
 }
