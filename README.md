@@ -1,6 +1,10 @@
-# Auth-A Library
+# auth-a-lib
 
-JavaScript library for integrating Auth-A authentication into your web applications. Provides a simple, secure OAuth 2.0 with PKCE flow implementation.
+> The official JavaScript SDK for integrating [Auth-A](https://auth-a.vercel.app) — a DevPortal-powered Identity Provider — into your web applications.
+
+Auth-A handles user authentication so you don't have to. Your users log in through Auth-A and get redirected back to your app with a verified access token that tells you who they are and what role they hold in your application.
+
+---
 
 ## Installation
 
@@ -8,129 +12,53 @@ JavaScript library for integrating Auth-A authentication into your web applicati
 npm install auth-a-lib
 ```
 
-## Quick Start
+---
+
+## Prerequisites
+
+Before using this library:
+
+1. **Register on Auth-A DevPortal** — [auth-a.vercel.app](https://auth-a.vercel.app)
+2. **Create an application** — You'll receive a `clientId`
+3. **Set your Redirect URI** — The callback URL in your app (e.g. `https://yourapp.com/callback`)
+
+---
+
+## Usage
 
 ```javascript
 import { ClientApp } from 'auth-a-lib';
 
-// Initialize the client with your Auth-A client ID
-const authClient = new ClientApp('your-client-id');
+const auth = new ClientApp('your-client-id');
 
-// Initiate login (async method)
-await authClient.login('https://your-app.com/callback');
+// Redirect user to Auth-A login
+await auth.login('https://yourapp.com/callback');
+
+// On your callback page — exchange the code for a token
+const result = await auth.handleRedirect();
+// result contains: access_token, user, role
 ```
 
-## Usage
+---
 
-### 1. Initialize the Client
+## What It Does
 
-Create a new instance of `ClientApp` with your client ID from the [Auth-A Developer Portal](https://auth-a.vercel.app):
+- **`login(redirectURL)`** — Redirects the user to the Auth-A login page. Handles all PKCE security internally.
+- **`handleRedirect()`** — Call this on your callback page. Reads the authorization code from the URL and exchanges it for a JWT access token.
 
-```javascript
-const authClient = new ClientApp('your-client-id-here');
-```
+The returned token includes the user's identity and their assigned role in your application.
 
-### 2. Initiate Login Flow
+> 📖 For in-depth integration guides, code samples, and framework-specific examples, visit the **[Auth-A Documentation Site](#)** *(coming soon)*.
 
-Call the `login()` method with your callback URL. The user will be redirected to Auth-A for authentication:
+---
 
-```javascript
-// The login method is async
-await authClient.login('https://your-app.com/callback');
-```
+## Links
 
-**Note:** The `login()` method will:
-- Generate a secure PKCE code verifier and challenge
-- Store the verifier in `sessionStorage` for later token exchange
-- Redirect the user to Auth-A login page
+- **DevPortal:** [auth-a.vercel.app](https://auth-a.vercel.app)
+- **Backend API:** [auth-a-be.onrender.com](https://auth-a-be.onrender.com)
 
-### 3. Handle the Callback
-
-After successful authentication, Auth-A will redirect back to your specified URL with an authorization code. You'll need to exchange this code for tokens using your backend.
-
-## API Reference
-
-### `ClientApp`
-
-#### Constructor
-
-```javascript
-new ClientApp(clientId: string)
-```
-
-- **clientId** (required): Your Auth-A application client ID
-
-#### Methods
-
-##### `login(redirectURL: string): Promise<void>`
-
-Initiates the OAuth 2.0 authentication flow with PKCE.
-
-- **redirectURL** (required): The URL to redirect to after authentication
-- **Returns**: Promise that resolves when redirect is initiated
-- **Throws**: Error if clientId is invalid or redirectURL is not provided
-
-**Example:**
-```javascript
-try {
-  await authClient.login('https://myapp.com/auth/callback');
-} catch (error) {
-  console.error('Login failed:', error.message);
-}
-```
-
-## Browser Compatibility
-
-This library uses the Web Crypto API and requires:
-- Chrome 37+
-- Firefox 34+
-- Safari 11+
-- Edge 79+
-
-## Security
-
-This library implements OAuth 2.0 with PKCE (Proof Key for Code Exchange) for enhanced security:
-- Cryptographically secure random code verifier generation
-- SHA-256 hashing for code challenge
-- Code verifier stored securely in sessionStorage
-
-## Development
-
-### Local Testing with yalc
-
-To test this library locally in another project:
-
-1. Build the library:
-```bash
-npm run build
-```
-
-2. Publish to yalc:
-```bash
-yalc publish
-```
-
-3. In your test project:
-```bash
-yalc add auth-a-lib
-npm install
-```
-
-4. After making changes to the library:
-```bash
-npm run build
-yalc push
-```
-
-### Build Commands
-
-- `npm run build` - Build production bundles
-- `npm run dev` - Build in watch mode for development
+---
 
 ## License
 
-ISC
-
-## Author
-
-Andrew William Staines
+ISC © Andrew William Staines
